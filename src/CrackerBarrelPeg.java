@@ -1,6 +1,9 @@
 public class CrackerBarrelPeg
 {
-
+    public static void main(String[] args)
+    {
+        //
+    }
 }
 class Move
 {
@@ -59,4 +62,44 @@ class Move
     public String stringConvert(){
         return String.format("(%d,%d,%d)", this.from, this.over, this.to);
     }
+}
+
+class Movement
+{
+    public int counter;
+    public int board[] = new int[15];
+    public int startPos;
+    public int i = 0;
+    public int again = 0;
+    public Move againP[] = new Move[2000];
+    public boolean flag1 = false;
+        public Movement(int start)
+        {
+            while(i<10)
+            {
+                board[i] = 1;
+                i++;
+            }
+            startPos = start;
+            board[start] = 0;
+            counter = 14;
+        }
+        public Movement(Movement mov)
+        {
+            while(i<15)
+            {
+                board[i] = mov.board[i];
+                i++;
+            }
+            while(i< mov.again)
+            {
+                againP[i] = mov.againP[i];
+                i++;
+            }
+            counter = mov.counter;
+            again = mov.again;
+            startPos = mov.startPos;
+            flag1 = false;
+        }
+
 }
