@@ -1,66 +1,155 @@
-public class CrackerBarrelPeg
+class CrackerBarrelPeg
 {
     public static void main(String[] args)
     {
-        //
+        Puzzle(0);
+    }
+
+    public static Movement play(Movement mov, Play p)
+    {
+        if (mov.board[p.from] == 1 && mov.board[p.over] == 1 && mov.board[p.to] == 0)
+        {
+            mov.flag1 = true;
+            mov.board[p.from] = 0;
+            mov.board[p.over] = 0;
+            mov.board[p.to] = 1;
+            mov.counter -= 1;
+            return mov;
+        }
+        else
+        {
+            mov.flag1 = false;
+            return mov;
+        }
+    }
+
+//        if (mov.board[p.from] == 1)
+//        {
+//            if (mov.board[p.over] == 1)
+//            {
+//                if (mov.board[p.to] == 0)
+//                {
+//                    mov.flag1 = true;
+//                    mov.board[p.from] = 0;
+//                    mov.board[p.over] = 0;
+//                    mov.board[p.to] = 1;
+//                    mov.counter -= 1;
+//                    return mov;
+//                }
+//            }
+//        }
+//        else
+//        {
+//            mov.flag1 = false;
+//            return mov;
+//        }
+//    }
+
+
+    public static void solution(Movement mov, boardMovement bm)
+    {
+        for (int i = 0; i < bm.counter; i++)
+        {
+            Movement newMov = new Movement(mov);
+            Play temporary = bm.nextMove(i);
+            newMov = play(newMov, temporary);
+            if (newMov.flag1)
+            {
+                newMov.againP[newMov.again] = temporary;
+                newMov.again = newMov.again + 1;
+                if (newMov.counter < 2)
+                {
+                    printing(newMov);
+                }
+                solution(newMov, bm);
+            }
+        }
+    }
+
+    public static void printing(Movement mov) {
+        mov.boardRestart();
+        mov.print();
+        int i = 0;
+        while (i < mov.again) {
+            mov = play(mov, mov.againP[i]);
+            mov.print();
+            i++;
+        }
+        Puzzle(mov.startPos + 1);
+    }
+
+    public static void Puzzle(int startPos)
+    {
+        if (startPos > 5)
+        {
+            System.exit(0);
+        }
+        System.out.println("==" + startPos + "==");
+        boardMovement bm = new boardMovement();
+        Movement mov = new Movement(startPos);
+        solution(mov, bm);
     }
 }
-class Move
+
+class Play
 {
-    //Adding constructor parameters //
     public int from;
     public int over;
     public int to;
 
-    //defining the moves for the board, for 18 moves are the direct combination give//
-    //in the code, whereas the next 18 are the two and from values interchanged//
-    public static Move[] MOVES = new Move[]{
-        new Move(0,1,3),
-        new Move(0,2,5),
-        new Move(1,3,6),
-        new Move(1,4,8),
-        new Move(2,4,7),
-        new Move(2,5,9),
-        new Move(3,6,10),
-        new Move(3,7,12),
-        new Move(4,7,11),
-        new Move(4,8,13),
-        new Move(5,8,12),
-        new Move(5,9,14),
-        new Move(3,4,5),
-        new Move(6,7,8),
-        new Move(7,8,9),
-        new Move(10,11,12),
-        new Move(11,12,13),
-        new Move(12,13,14),
-
-        new Move(3,1,0),
-        new Move(5,2,0),
-        new Move(6,3,1),
-        new Move(8,4,1),
-        new Move(7,4,2),
-        new Move(9,5,2),
-        new Move(10,6,3),
-        new Move(12,7,3),
-        new Move(11,7,4),
-        new Move(13,8,4),
-        new Move(12,8,5),
-        new Move(14,9,5),
-        new Move(5,4,3),
-        new Move(8,7,6),
-        new Move(9,8,7),
-        new Move(12,11,10),
-        new Move(13,12,11),
-        new Move(14,13,12)
-    };
-    public Move(int from, int over, int to)
+    public Play(int a, int b, int c)
     {
-        this.from = from;
-        this.over = over;
-        this.to = to;
+        from = a;
+        over = b;
+        to = c;
     }
-    public String stringConvert(){
-        return String.format("(%d,%d,%d)", this.from, this.over, this.to);
+
+    public void print()
+    {
+        System.out.println("(" + from + ", " + over + ", " + to + ")");
+    }
+}
+
+class boardMovement
+{
+    public Play boardMovement[] = new Play[36];
+    public int counter;
+
+    public boardMovement()
+    {
+        boardMovement[0] = new Play(0,1,3);
+        boardMovement[1] = new Play(0,2,5);
+        boardMovement[2] = new Play(1,3,6);
+        boardMovement[3] = new Play(1,4,8);
+        boardMovement[4] = new Play(2,4,7);
+        boardMovement[5] = new Play(2,5,9);
+        boardMovement[6] = new Play(3,6,10);
+        boardMovement[7] = new Play(3,7,12);
+        boardMovement[8] = new Play(4,7,11);
+        boardMovement[9] = new Play(4,8,13);
+        boardMovement[10] = new Play(5,8,12);
+        boardMovement[11] = new Play(5,9,14);
+        boardMovement[12] = new Play(3,4,5);
+        boardMovement[13] = new Play(6,7,8);
+        boardMovement[14] = new Play(7,8,9);
+        boardMovement[15] = new Play(10,11,12);
+        boardMovement[16] = new Play(11,12,13);
+        boardMovement[17] = new Play(12,13,14);
+
+        int j = 18;
+        int i = 0;
+        while(i < 18)
+        {
+            boardMovement[j] = new Play(boardMovement[i].to, boardMovement[i].over, boardMovement[i].from);
+            j++;
+            i++;
+        }
+        counter = 36;
+    }
+
+    public Play nextMove(int i)
+    {
+        return boardMovement[i];
     }
 }
 
@@ -71,35 +160,59 @@ class Movement
     public int startPos;
     public int i = 0;
     public int again = 0;
-    public Move againP[] = new Move[2000];
+    public Play againP[] = new Play[2000];
     public boolean flag1 = false;
-        public Movement(int start)
-        {
-            while(i<10)
-            {
-                board[i] = 1;
-                i++;
-            }
-            startPos = start;
-            board[start] = 0;
-            counter = 14;
-        }
-        public Movement(Movement mov)
-        {
-            while(i<15)
-            {
-                board[i] = mov.board[i];
-                i++;
-            }
-            while(i< mov.again)
-            {
-                againP[i] = mov.againP[i];
-                i++;
-            }
-            counter = mov.counter;
-            again = mov.again;
-            startPos = mov.startPos;
-            flag1 = false;
-        }
 
+    public void boardRestart()
+    {
+        while(i < 15)
+        {
+            board[i] = 1;
+            i++;
+        }
+        board[startPos] = 0;
+    }
+
+    public Movement(int start)
+    {
+        i = 0;
+        while(i<15)
+        {
+            board[i] = 1;
+            i++;
+        }
+        startPos = start;
+        board[start] = 0;
+        counter = 14;
+    }
+    public Movement(Movement mov)
+    {
+        int i = 0;
+        while(i<15)
+        {
+            board[i] = mov.board[i];
+            i++;
+        }
+        while(i< mov.again)
+        {
+            againP[i] = mov.againP[i];
+            i++;
+        }
+        flag1 = false;
+        startPos = mov.startPos;
+        counter = mov.counter;
+        again = mov.again;
+    }
+
+
+    public void print()
+    {
+        System.out.println("    "+ board[0]);
+        System.out.println("   "+ board[1]+ " " +board[2]);
+        System.out.println("  " + board[3] + " " + board[4] + " " + board[5]);
+        System.out.println(" " + board[6] + " " + board[7] + " " + board[8] + " " + board[9]);
+        System.out.println(board[10] + " " + board[11] + " " + board[12] + " " + board[13] + " " + board[14]);
+        System.out.print("\n");
+    }
 }
+
