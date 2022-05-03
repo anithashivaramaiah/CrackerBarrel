@@ -35,7 +35,14 @@
     "RunOnceActivity.ShowReadmeOnStart": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.CrackerBarrelPeg">
+    <configuration name="CrackerBarrel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CrackerBarrel" />
+      <module name="PegGame" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CrackerBarrelPeg" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CrackerBarrelPeg" />
       <module name="PegGame" />
@@ -46,6 +53,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.CrackerBarrelPeg" />
+        <item itemvalue="Application.CrackerBarrel" />
       </list>
     </recent_temporary>
   </component>
@@ -128,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651596224766</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Merge remote-tracking branch 'origin/master'">
+      <created>1651596977270</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1651596977271</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
